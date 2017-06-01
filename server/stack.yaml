@@ -1,0 +1,8 @@
+flags: {}
+extra-package-dbs: []
+packages:
+- '.'
+extra-deps:
+- mysql-0.1.4
+- mysql-simple-0.4.0.0
+resolver: lts-7.19
