@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 module Database.Types where
 
 import Prelude
@@ -9,16 +10,22 @@ import Database.MySQL.Simple.Param
 import Database.MySQL.Simple.Result
 import Database.MySQL.Simple.QueryParams
 import Database.MySQL.Simple.QueryResults
+import Data.Word
 import Types.Types
 
--- This info is fake for now.  TODO: move this to an unversioned config
-pollConn :: ConnectInfo
-pollConn = ConnectInfo 
-  { connectHost = "blah"
-  , connectPort = 0
-  , connectUser = "blah"
-  , connectPassword = "password"
-  , connectDatabase = "db"
+mkConnectInfo 
+  :: String
+  -> Word16
+  -> String
+  -> String
+  -> String
+  -> ConnectInfo
+mkConnectInfo host port user password db = ConnectInfo 
+  { connectHost = host
+  , connectPort = port
+  , connectUser = user
+  , connectPassword = password
+  , connectDatabase = db
   , connectOptions = []
   , connectPath = ""
   , connectSSL = Nothing

@@ -55,7 +55,7 @@ server = getAll
   :<|> create
   where
     conn :: IO Connection
-    conn = connect pollConn
+    conn = connect =<< pollConn
     
     getAll :: Handler [Poll]
     getAll = liftIO $ getAllPolls =<< conn
