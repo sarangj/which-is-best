@@ -5,9 +5,9 @@ description:         Please see README.md
 homepage:            https://github.com/githubuser/which-is-best#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2017 Author name here
+author:              sarangj
+maintainer:          sarangjoshi22@gmail.com
+copyright:           2017 Sarang Joshi
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
@@ -60,4 +60,4 @@ test-suite which-is-best-server-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/which-is-best
+  location: https://github.com/sarangj/which-is-best
