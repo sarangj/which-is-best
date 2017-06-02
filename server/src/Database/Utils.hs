@@ -36,19 +36,18 @@ insertPollQuery =
   "INSERT INTO polls (timestamp, pollname, optiona, optionb)\
   \VALUES (?, ?, ?, ?)"
 
-config :: Config
-config = Data.Configurator.empty
-
-requireConfigValue :: Configured a => Text -> IO a
-requireConfigValue = require config 
+getConfig :: IO Config
+getConfig = load [Required "$(WIB_DIR)/configuration/db_connection.cfg"] 
 
 pollConn :: IO ConnectInfo
-pollConn = mkConnectInfo
-  <$> requireConfigValue "host_name"
-  <*> requireConfigValue "port"
-  <*> requireConfigValue "user"
-  <*> requireConfigValue "password"
-  <*> requireConfigValue "database"
+pollConn = do 
+  conf <- getConfig
+  mkConnectInfo
+    <$> require conf "host_name"
+    <*> require conf "port"
+    <*> require conf "user"
+    <*> require conf "password"
+    <*> require conf "database"
 
 getAllPolls :: Connection -> IO [Poll]
 getAllPolls conn = query_ conn allPolls
