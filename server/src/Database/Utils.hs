@@ -1,5 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Database.Utils where
+module Database.Utils 
+  ( insertPoll
+  , getAllPolls
+  , getPollFromName
+  , withConn
+  ) where
 
 import Prelude
 import Database.MySQL.Simple
@@ -14,6 +19,17 @@ import Types.Types
 
 withConn :: (Connection -> IO a) -> IO a
 withConn f = f =<< connect =<< pollConn
+
+getAllPolls :: Connection -> IO [Poll]
+getAllPolls conn = query_ conn allPolls
+
+getPollFromName :: Text -> Connection -> IO [Poll]
+getPollFromName name conn = query conn pollNameQuery [name]
+
+insertPoll :: Poll -> Connection -> IO Bool
+insertPoll poll conn = do
+  result <- execute conn insertPollQuery poll
+  return $ result > 0
 
 allPolls :: Query
 allPolls = 
@@ -51,14 +67,3 @@ pollConn = do
     <*> require conf "user"
     <*> require conf "password"
     <*> require conf "database"
-
-getAllPolls :: Connection -> IO [Poll]
-getAllPolls conn = query_ conn allPolls
-
-getPollFromName :: Text -> Connection -> IO [Poll]
-getPollFromName name conn = query conn pollNameQuery [name]
-
-insertPoll :: Poll -> Connection -> IO Bool
-insertPoll poll conn = do
-  result <- execute conn insertPollQuery poll
-  return $ result > 0
