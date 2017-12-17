@@ -54,17 +54,14 @@ server = getAll
   :<|> getByName
   :<|> create
   where
-    conn :: IO Connection
-    conn = connect =<< pollConn
-    
     getAll :: Handler [Poll]
-    getAll = liftIO $ getAllPolls =<< conn
+    getAll = liftIO $ withConn getAllPolls
 
     getByName :: Text -> Handler [Poll]
-    getByName name = liftIO $ getPollFromName name =<< conn
+    getByName name = liftIO . withConn $ getPollFromName name 
 
     create :: Poll -> Handler Bool
-    create poll = liftIO $ insertPoll poll =<< conn
+    create poll = liftIO . withConn $ insertPoll poll
 
 
 app :: Application

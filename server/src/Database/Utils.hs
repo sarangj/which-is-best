@@ -12,6 +12,9 @@ import Data.Configurator.Types
 import Data.Text
 import Types.Types
 
+withConn :: (Connection -> IO a) -> IO a
+withConn f = f =<< connect =<< pollConn
+
 allPolls :: Query
 allPolls = 
   "SELECT\
